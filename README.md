@@ -5,7 +5,6 @@ Glow On You(Glow) is inspired by "Glow And Grow" from GA.
 GA SEI cohorts share feedback - glow(something ) & grow(something to improve) with each other on our projects.
 Glow app allows users to share Glow (more positive messages!) by creating a board with a title/topic(i.e. "J - Graduation Project") that many other users can leave glow messages on. 
 
-- - - -
 
 
 
