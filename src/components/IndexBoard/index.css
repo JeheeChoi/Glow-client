@@ -1,0 +1,13 @@
+.index-boards-container {
+  display: flex;
+  flex-flow: row wrap;
+  background-color: lightgray;
+
+}
+
+.index-board-detail {
+  padding: 0.5rem;
+  margin: 0.25rem;
+  background-color: white;
+  cursor: pointer;
+}
