@@ -21,3 +21,23 @@ export const indexBoards = user => {
     }
   })
 }
+
+export const showBoards = (user, id) => {
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/boards/' + id,
+    headers: {
+      'Authorization': `Token ${user.token}`
+    }
+  })
+}
+
+export const deleteBoards = (user, id) => {
+  return axios({
+    url: apiUrl + '/boards/' + id,
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Token ${user.token}`
+    }
+  })
+}

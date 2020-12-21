@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router'
+import React, { Redirect, useState } from 'react'
 import { createBoards } from '../../api/boards'
 import './index.css'
 // import Button from 'react-bootstrap/Button'
@@ -7,8 +6,8 @@ import './index.css'
 
 const BoardCreate = props => {
   const [board, setBoard] = useState({ title: '', topic: '' })
-  // const [createdBoardId, setCreatedBoardId] = useState(null)
-  const history = useHistory()
+  const [createdBoardId, setCreatedBoardId] = useState(null)
+
   const handleChange = event => {
     event.persist()
     setBoard(prevBoard => {
@@ -23,21 +22,20 @@ const BoardCreate = props => {
     const { user, msgAlert } = props
     createBoards({ board }, user)
       .then((response) => {
-        // setCreatedBoardId(response.data.board.id)
+        setCreatedBoardId(response.data.board.id)
         return msgAlert({
           heading: 'Successfully Created',
           message: 'Created Board:' + ' ' + response.data.board.title + ' - ' + response.data.board.topic,
           variant: 'success'
         })
       })
-      .then(() => history.push('/boards'))
   }
 
-  // if (createdBoardId) {
-  //   return (
-  //     <Redirect to={'/boards/'} />
-  //   )
-  // }
+  if (createdBoardId) {
+    return (
+      <Redirect to={'/boards/'} />
+    )
+  }
 
   return (
     <div className="create-board-form">

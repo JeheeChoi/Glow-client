@@ -11,6 +11,7 @@ import SignOut from './components/SignOut/SignOut'
 import ChangePassword from './components/ChangePassword/ChangePassword'
 import BoardCreate from './components/CreateBoard'
 import BoardIndex from './components/IndexBoard'
+import BoardShow from './components/ShowBoard'
 
 class App extends Component {
   constructor () {
@@ -67,11 +68,23 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/boards' render={() => (
+          <AuthenticatedRoute user={user} exact path='/boards' render={() => (
             <Fragment>
               <BoardCreate msgAlert={this.msgAlert} user={user} />
               <BoardIndex msgAlert={this.msgAlert} user={user} />
             </Fragment>
+          )} />
+          <AuthenticatedRoute user={user} exact path='/' render={() => (
+            <Fragment>
+              <BoardIndex msgAlert={this.msgAlert} user={user} />
+            </Fragment>
+          )} />
+          <AuthenticatedRoute user={user} exact path='/boards/:id' render={({ match }) => (
+            <BoardShow
+              user={user}
+              msgAlert={this.msgAlert}
+              match={match}
+            />
           )} />
         </main>
       </Fragment>
