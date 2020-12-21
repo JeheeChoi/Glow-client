@@ -33,7 +33,7 @@ const BoardCreate = props => {
 
   if (createdBoardId) {
     return (
-      <Redirect to={'/boards/'} />
+      <Redirect to={'/boards'} />
     )
   }
 

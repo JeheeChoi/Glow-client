@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { showBoards } from '../../api/boards'
+import React, { useState, useEffect, Redirect } from 'react'
+import { showBoards, deleteBoards } from '../../api/boards'
 
 const BoardShow = (props) => {
   const [board, setBoard] = useState(null)
+  const [deleted, setDeleted] = useState(false)
+  // const [edited, setEdited] = useState(false)
+
   useEffect(() => {
     const { user, msgAlert, match } = props
 
@@ -26,6 +29,30 @@ const BoardShow = (props) => {
       })
   }, [])
 
+  const destroyBoard = () => {
+    const { user, msgAlert, match } = props
+    deleteBoards(user, match.params.id)
+      .then(() => setDeleted(true))
+      .then(response => {
+        msgAlert({
+          heading: 'Delete Board Success',
+          message: 'Find other boards available!',
+          variant: 'success'
+        })
+      })
+      .catch(console.error)
+  }
+
+  if (!board) {
+    return <p>Loading...</p>
+  }
+
+  if (deleted) {
+    return <Redirect to={
+      { pathname: '/', state: { msg: 'Board succesfully deleted!' } }
+    } />
+  }
+
   return (
     <div>
       {board ? (
@@ -34,6 +61,7 @@ const BoardShow = (props) => {
           <p>{board.topic}</p>
           <p>Created By: {board.owner}</p>
           <p>{board.created_at}</p>
+          <button onClick={destroyBoard}>Delete</button>
         </div>
       ) : 'Loading...'}
     </div>
