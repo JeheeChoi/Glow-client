@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { indexBoards } from '../../api/boards'
 import './index.css'
+import messages from '../AutoDismissAlert/messages'
 
 const BoardIndex = (props) => {
   const [boardArray, setBoardArray] = useState(null)
@@ -17,6 +18,13 @@ const BoardIndex = (props) => {
           heading: 'Index Boards Success',
           message: 'See all the boards here!',
           variant: 'success'
+        })
+      })
+      .catch(error => {
+        msgAlert({
+          heading: 'Index Board Failed with error: ' + error.message,
+          message: messages.indexBoardsFailure,
+          variant: 'danger'
         })
       })
   }, [])
@@ -44,6 +52,11 @@ const BoardIndex = (props) => {
             <Link to={`/boards/${board.id}`}>See More</Link>
           </div>
         ))}
+        <div>
+          <h2>Create Board</h2>
+          <Link to={'/boards/'}><button>+</button></Link>
+
+        </div>
       </div>
     )
   }

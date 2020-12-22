@@ -1,16 +1,19 @@
-import React, { useState, useEffect, Redirect } from 'react'
-import { showBoards, deleteBoards } from '../../api/boards'
+import React, { useState, useEffect } from 'react'
+import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
+import messages from '../AutoDismissAlert/messages'
+import { Redirect } from 'react-router-dom'
 
 const BoardShow = (props) => {
   const [board, setBoard] = useState(null)
   const [deleted, setDeleted] = useState(false)
-  // const [edited, setEdited] = useState(false)
+  const [edited, setEdited] = useState(false)
 
   useEffect(() => {
     const { user, msgAlert, match } = props
 
     showBoards(user, match.params.id)
       .then(response => {
+        console.log(response)
         setBoard(response.data.board)
       })
       .then(() => {
@@ -40,19 +43,58 @@ const BoardShow = (props) => {
           variant: 'success'
         })
       })
-      .catch(console.error)
+      .catch(error => {
+        msgAlert({
+          heading: 'Delete Board Failed with error: ' + error.message,
+          message: messages.deleteBoardsFailure,
+          variant: 'danger'
+        })
+      })
+  }
+  const handleChange = event => {
+    event.persist()
+
+    setBoard(prevBoard => {
+      const updatedField = { [event.target.name]: event.target.value }
+
+      const updatedBoard = Object.assign({}, prevBoard, updatedField)
+
+      return updatedBoard
+    })
   }
 
-  if (!board) {
-    return <p>Loading...</p>
+  const handleSubmit = event => {
+    event.preventDefault()
+    const { user, msgAlert } = props
+    updateBoards({ board }, user, props.match.params.id)
+      .then((response) => {
+        return msgAlert({
+          heading: 'Successfully updated',
+          message: 'Updated Board:' + ' ' + response.data.board.title + ' - ' + response.data.board.topic,
+          variant: 'success'
+        })
+      })
+      .then(() => setEdited(true))
+      .catch(error => {
+        setBoard({ title: '', topic: '' })
+        msgAlert({
+          heading: 'Update Board Failed with error: ' + error.message,
+          message: messages.updateBoardsFailure,
+          variant: 'danger'
+        })
+      })
   }
 
   if (deleted) {
-    return <Redirect to={
-      { pathname: '/', state: { msg: 'Board succesfully deleted!' } }
-    } />
+    return (
+      <Redirect to={'/home'}/>
+    )
   }
-
+  if (edited) {
+    return (
+      <Redirect to={`/boards/${props.match.params.id}`} />
+    )
+  }
   return (
     <div>
       {board ? (
@@ -64,6 +106,22 @@ const BoardShow = (props) => {
           <button onClick={destroyBoard}>Delete</button>
         </div>
       ) : 'Loading...'}
+      <div className="update-board-form">
+        <h1>Update Board</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            placeholder="New Board Title Here"
+            onChange={handleChange}
+            name="title"
+          />
+          <input
+            placeholder="New Board Topic Here"
+            onChange={handleChange}
+            name="topic"
+          />
+          <button type="submit">Update Board</button>
+        </form>
+      </div>
     </div>
   )
 }

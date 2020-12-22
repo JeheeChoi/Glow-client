@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
-import { createBoards } from '../../api/boards'
-import './index.css'
+import React, { Redirect, useState } from 'react'
+import { updateBoards } from '../../api/boards'
 import messages from '../AutoDismissAlert/messages'
 
 const BoardCreate = props => {
@@ -19,8 +17,8 @@ const BoardCreate = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    const { user, msgAlert } = props
-    createBoards({ board }, user)
+    const { user, history, msgAlert } = props
+    updateBoards({ board }, user)
       .then((response) => {
         setCreatedBoardId(response.data.board.id)
         return msgAlert({
@@ -29,6 +27,7 @@ const BoardCreate = props => {
           variant: 'success'
         })
       })
+      .then(() => history.push('/home'))
       .catch(error => {
         setBoard({ title: '', topic: '' })
         msgAlert({
@@ -41,7 +40,7 @@ const BoardCreate = props => {
 
   if (createdBoardId) {
     return (
-      <Redirect to={'/home'} />
+      <Redirect to={`/boards/${createdBoardId}`} />
     )
   }
 

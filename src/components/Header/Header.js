@@ -6,8 +6,6 @@ const authenticatedOptions = (
   <Fragment>
     <Nav.Link href="#change-password">Change Password</Nav.Link>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
-    <Nav.Link href="#boards">Boards</Nav.Link>
-
   </Fragment>
 )
 
@@ -20,13 +18,13 @@ const unauthenticatedOptions = (
 
 const alwaysOptions = (
   <Fragment>
-    <Nav.Link href="#/">Home</Nav.Link>
+    <Nav.Link href="#/home">Home</Nav.Link>
   </Fragment>
 )
 
 const Header = ({ user }) => (
   <Navbar bg="primary" variant="dark" expand="md">
-    <Navbar.Brand href="#">
+    <Navbar.Brand href="#/home">
       Glow On You
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -69,23 +69,17 @@ class App extends Component {
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
           <AuthenticatedRoute user={user} exact path='/boards' render={() => (
-            <Fragment>
-              <BoardCreate msgAlert={this.msgAlert} user={user} />
-              <BoardIndex msgAlert={this.msgAlert} user={user} />
-            </Fragment>
+            <BoardCreate msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} exact path='/' render={() => (
-            <Fragment>
-              <BoardIndex msgAlert={this.msgAlert} user={user} />
-            </Fragment>
+          <AuthenticatedRoute user={user} path='/home' render={() => (
+            <BoardIndex msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} exact path='/boards/:id' render={({ match }) => (
-            <BoardShow
-              user={user}
-              msgAlert={this.msgAlert}
-              match={match}
-            />
-          )} />
+          <AuthenticatedRoute user={user} path='/boards/:id' render={(props) => {
+            console.log(props)
+            return (
+              <BoardShow {...props} msgAlert={this.msgAlert} user={user} />
+            )
+          }} />
         </main>
       </Fragment>
     )
