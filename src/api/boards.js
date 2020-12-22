@@ -45,7 +45,7 @@ export const deleteBoards = (user, id) => {
 export const updateBoards = (data, user, id) => {
   return axios({
     method: 'PATCH',
-    url: apiUrl + '/boards/' + id,
+    url: apiUrl + `/boards/${id}/`,
     headers: {
       'Authorization': `Token ${user.token}`
     },

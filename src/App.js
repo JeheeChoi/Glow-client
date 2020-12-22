@@ -12,6 +12,7 @@ import ChangePassword from './components/ChangePassword/ChangePassword'
 import BoardCreate from './components/CreateBoard'
 import BoardIndex from './components/IndexBoard'
 import BoardShow from './components/ShowBoard'
+// import BoardUpdate from './components/UpdateBoard'
 
 class App extends Component {
   constructor () {

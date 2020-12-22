@@ -3,14 +3,15 @@ import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect } from 'react-router-dom'
 
+// Board detail info with delete/update feature
 const BoardShow = (props) => {
-  const [board, setBoard] = useState(null)
+  const [board, setBoard] = useState({ title: '', topic: '' })
   const [deleted, setDeleted] = useState(false)
   const [edited, setEdited] = useState(false)
 
-  useEffect(() => {
-    const { user, msgAlert, match } = props
+  const { user, msgAlert, match } = props
 
+  useEffect(() => {
     showBoards(user, match.params.id)
       .then(response => {
         console.log(response)
@@ -33,7 +34,6 @@ const BoardShow = (props) => {
   }, [])
 
   const destroyBoard = () => {
-    const { user, msgAlert, match } = props
     deleteBoards(user, match.params.id)
       .then(() => setDeleted(true))
       .then(response => {
@@ -56,27 +56,23 @@ const BoardShow = (props) => {
 
     setBoard(prevBoard => {
       const updatedField = { [event.target.name]: event.target.value }
-
       const updatedBoard = Object.assign({}, prevBoard, updatedField)
-
       return updatedBoard
     })
   }
 
   const handleSubmit = event => {
     event.preventDefault()
-    const { user, msgAlert } = props
-    updateBoards({ board }, user, props.match.params.id)
-      .then((response) => {
+    updateBoards({ board }, user, match.params.id)
+      .then(() => {
         return msgAlert({
           heading: 'Successfully updated',
-          message: 'Updated Board:' + ' ' + response.data.board.title + ' - ' + response.data.board.topic,
+          message: 'Updated Board:' + ' ' + board.title + ' - ' + board.topic,
           variant: 'success'
         })
       })
       .then(() => setEdited(true))
       .catch(error => {
-        setBoard({ title: '', topic: '' })
         msgAlert({
           heading: 'Update Board Failed with error: ' + error.message,
           message: messages.updateBoardsFailure,
@@ -92,20 +88,28 @@ const BoardShow = (props) => {
   }
   if (edited) {
     return (
-      <Redirect to={`/boards/${props.match.params.id}`} />
+      <div>
+        <h3>{board.title}</h3>
+        <p>{board.topic}</p>
+        <p>Created By: {board.owner}</p>
+        <p>{board.created_at}</p>
+        <button onClick={destroyBoard}>Delete</button>
+      </div>
     )
   }
   return (
     <div>
-      {board ? (
-        <div>
-          <h3>{board.title}</h3>
-          <p>{board.topic}</p>
-          <p>Created By: {board.owner}</p>
-          <p>{board.created_at}</p>
-          <button onClick={destroyBoard}>Delete</button>
-        </div>
-      ) : 'Loading...'}
+      <div>
+        {board ? (
+          <div>
+            <h3>{board.title}</h3>
+            <p>{board.topic}</p>
+            <p>Created By: {board.owner}</p>
+            <p>{board.created_at}</p>
+            <button onClick={destroyBoard}>Delete</button>
+          </div>
+        ) : 'Loading...'}
+      </div>
       <div className="update-board-form">
         <h1>Update Board</h1>
         <form onSubmit={handleSubmit}>
@@ -113,11 +117,13 @@ const BoardShow = (props) => {
             placeholder="New Board Title Here"
             onChange={handleChange}
             name="title"
+            value={board.title}
           />
           <input
             placeholder="New Board Topic Here"
             onChange={handleChange}
             name="topic"
+            value={board.topic}
           />
           <button type="submit">Update Board</button>
         </form>
