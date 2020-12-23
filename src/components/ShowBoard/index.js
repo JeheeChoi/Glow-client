@@ -120,9 +120,15 @@ const BoardShow = (props) => {
         className="index-glow-detail"
         key={glow.id}
       >
-        <p>{glow.message}</p>
-        <p>{glow.name}</p>
-        <Link to={`/glows/${glow.id}`}>See More</Link>
+        <div className="card p-3 text-right">
+          <blockquote className="blockquote mb-0">
+            {glow.message}
+            <footer className="blockquote-footer">
+              <small className="text-muted">{glow.name}
+              </small>
+            </footer>
+          </blockquote>
+        </div>
       </div>
     )
   })

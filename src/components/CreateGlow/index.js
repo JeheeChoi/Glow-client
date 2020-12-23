@@ -24,7 +24,7 @@ const GlowCreate = props => {
         setCreatedGlowId(response.data.glow.id)
         return msgAlert({
           heading: 'Successfully Created',
-          message: 'Created Glow:' + ' ' + response.data.glow.message + ' - ' + response.data.glow.topic,
+          message: 'Created Glow:' + ' ' + response.data.glow.message + ' - ' + response.data.glow.name,
           variant: 'success'
         })
       })
