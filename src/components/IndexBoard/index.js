@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { indexBoards } from '../../api/boards'
-import './index.css'
 import messages from '../AutoDismissAlert/messages'
+import './index.css'
 
 const BoardIndex = (props) => {
   const [boardArray, setBoardArray] = useState(null)

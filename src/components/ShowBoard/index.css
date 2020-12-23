@@ -3,16 +3,20 @@
   flex-flow: row wrap;
 
 } */
-.col-12 {
+/* .col-12 {
   display: flex;
   flex-flow: row wrap;
-}
+} */
 
 .card {
   min-width: 22rem;
   min-height: 13rem;
   max-width: 30rem;
   max-height: 18rem;
+  /* min-width: 50rem;
+  min-height: 40rem; */
+  /* max-width: 60rem;
+  max-height: 40rem; */
   padding: 0.5rem;
   background-color: white;
   cursor: pointer;
@@ -25,3 +29,7 @@
 .card-text {
   text-align: center;
 }
+
+/* .index-glow-detail {
+  background-color: lightgrey;
+} */

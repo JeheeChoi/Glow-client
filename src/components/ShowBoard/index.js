@@ -3,6 +3,7 @@ import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
 import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect, Link } from 'react-router-dom'
+import './index.css'
 
 // Board detail info with delete/update feature
 const BoardShow = (props) => {
@@ -161,9 +162,7 @@ const BoardShow = (props) => {
       </div>
       <div className="col-12">
         <button className="btn btn-outline-secondary" onClick={destroyBoard}>Delete</button>
-        <button className="btn btn-outline-secondary">Add A Glow Message</button>
-        <h2>Create Glow</h2>
-        <Link to={'/glows/'}><button>Add glow</button></Link>
+        <Link to={`/boards/${board.id}/glows`}><button className="btn btn-outline-secondary">Add A Glow Message</button></Link>
         <div className="index-board-glows-container">
           {glows}
         </div>
