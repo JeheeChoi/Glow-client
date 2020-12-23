@@ -46,7 +46,7 @@ const BoardCreate = props => {
   }
 
   return (
-    <div className="form-group">
+    <div className="col-6 form-group">
       <h3>Create A New Board</h3>
       <form onSubmit={handleSubmit}>
         <input
@@ -63,7 +63,7 @@ const BoardCreate = props => {
           onChange={handleChange}
           name="topic"
         />
-        <button className="btn btn-outline-secondary" type="submit">Create Board</button>
+        <button className="btn btn-outline-secondary" type="submit">Create A New Board Here!</button>
       </form>
     </div>
   )

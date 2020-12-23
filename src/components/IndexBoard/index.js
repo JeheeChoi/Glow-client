@@ -60,7 +60,7 @@ const BoardIndex = (props) => {
               <br/>
               <br/>
               <br/>
-              <p className="card-title"><button>+</button></p>
+              <Link to={'/home/boards/'}><p className="card-text"><button className="btn btn-outline-secondary">+</button></p></Link>
             </div>
           </Link>
         </div>

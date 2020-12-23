@@ -43,7 +43,7 @@ const GlowCreate = props => {
     )
   }
   return (
-    <div className="form-group">
+    <div className="col-6 form-group">
       <h3>Create A New glow</h3>
       <form onSubmit={handleSubmit}>
         <input
