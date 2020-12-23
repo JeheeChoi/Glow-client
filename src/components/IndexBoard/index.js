@@ -22,7 +22,7 @@ const BoardIndex = (props) => {
       })
       .catch(error => {
         msgAlert({
-          heading: 'Index Board Failed with error: ' + error.message,
+          heading: 'Index Boards Failed with error: ' + error.message,
           message: messages.indexBoardsFailure,
           variant: 'danger'
         })
@@ -38,24 +38,30 @@ const BoardIndex = (props) => {
     )
   } else {
     return (
-      <div className="index-boards-container">
-        {boardArray.map(board => (
-          <div
-            onClick={() => {
-              console.log(board)
-            }}
-            className="index-board-detail"
-            key={board.id}
-          >
-            <h2>{board.title}</h2>
-            <p>{board.topic}</p>
-            <Link to={`/boards/${board.id}`}>See More</Link>
-          </div>
-        ))}
-        <div>
-          <h2>Create Board</h2>
-          <Link to={'/boards/'}><button>+</button></Link>
-
+      <div>
+        <div className="card-container">
+          {boardArray.map(board => (
+            <div
+              onClick={() => {
+                console.log(board)
+              }}
+              className="card border-info mb-3"
+              key={board.id}
+            >
+              <h2 className="card-title">{board.title}</h2>
+              <p className="card-text">{board.topic}</p>
+              <p className="card-text"><small className="text-muted">{board.updated_at}</small></p>
+              <Link to={`/boards/${board.id}`}>See More</Link>
+            </div>
+          ))}
+          <Link to={'/boards/'}>
+            <div className="card border-info mb-3">
+              <br/>
+              <br/>
+              <br/>
+              <p className="card-title"><Link to={'/boards/'}><button>+</button></Link></p>
+            </div>
+          </Link>
         </div>
       </div>
     )

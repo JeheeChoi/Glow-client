@@ -1,13 +1,20 @@
-.index-boards-container {
+.card-container {
   display: flex;
   flex-flow: row wrap;
-  background-color: lightgray;
 
 }
 
-.index-board-detail {
+.card {
+  min-width: 22rem;
+  min-height: 13rem;
+  max-width: 30rem;
+  max-height: 18rem;
   padding: 0.5rem;
   margin: 0.25rem;
   background-color: white;
   cursor: pointer;
+}
+
+.card-title {
+  text-align: center;
 }
