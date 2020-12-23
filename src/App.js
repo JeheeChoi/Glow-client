@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
+import './index.scss'
 
 import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute'
 import AutoDismissAlert from './components/AutoDismissAlert/AutoDismissAlert'
@@ -12,7 +13,7 @@ import ChangePassword from './components/ChangePassword/ChangePassword'
 import BoardCreate from './components/CreateBoard'
 import BoardIndex from './components/IndexBoard'
 import BoardShow from './components/ShowBoard'
-import GlowIndex from './components/IndexGlow'
+// import GlowIndex from './components/IndexGlow'
 
 class App extends Component {
   constructor () {
@@ -72,8 +73,8 @@ class App extends Component {
           <AuthenticatedRoute user={user} exact path='/boards' render={() => (
             <BoardCreate msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/home' render={() => (
-            <BoardIndex msgAlert={this.msgAlert} user={user} />
+          <AuthenticatedRoute user={user} path='/home' render={(props) => (
+            <BoardIndex {...props} msgAlert={this.msgAlert} user={user} />
           )} />
           <AuthenticatedRoute user={user} path='/boards/:id' render={(props) => {
             console.log(props)
@@ -81,9 +82,6 @@ class App extends Component {
               <BoardShow {...props} msgAlert={this.msgAlert} user={user} />
             )
           }} />
-          <AuthenticatedRoute user={user} path='/glows' render={() => (
-            <GlowIndex msgAlert={this.msgAlert} user={user} />
-          )} />
         </main>
       </Fragment>
     )

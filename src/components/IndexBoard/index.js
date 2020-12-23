@@ -43,15 +43,16 @@ const BoardIndex = (props) => {
           {boardArray.map(board => (
             <div
               onClick={() => {
+                props.history.push(`/boards/${board.id}`)
                 console.log(board)
               }}
               className="card border-info mb-3"
               key={board.id}
             >
+              <br/>
+              <br/>
               <h2 className="card-title">{board.title}</h2>
               <p className="card-text">{board.topic}</p>
-              <p className="card-text"><small className="text-muted">{board.updated_at}</small></p>
-              <Link to={`/boards/${board.id}`}>See More</Link>
             </div>
           ))}
           <Link to={'/boards/'}>
@@ -59,7 +60,7 @@ const BoardIndex = (props) => {
               <br/>
               <br/>
               <br/>
-              <p className="card-title"><Link to={'/boards/'}><button>+</button></Link></p>
+              <p className="card-title"><button>+</button></p>
             </div>
           </Link>
         </div>

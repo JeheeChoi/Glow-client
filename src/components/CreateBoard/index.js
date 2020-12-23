@@ -46,22 +46,24 @@ const BoardCreate = props => {
   }
 
   return (
-    <div className="create-board-form">
-      <h1>Create Board</h1>
+    <div className="form-group">
+      <h3>Create A New Board</h3>
       <form onSubmit={handleSubmit}>
         <input
+          className="form-control"
           placeholder="Board Title Here"
           value={board.title}
           onChange={handleChange}
           name="title"
         />
         <input
+          className="form-control"
           placeholder="Board Topic Here"
           value={board.topic}
           onChange={handleChange}
           name="topic"
         />
-        <button type="submit">Create Board</button>
+        <button className="btn btn-outline-secondary" type="submit">Create Board</button>
       </form>
     </div>
   )
