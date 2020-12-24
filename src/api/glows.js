@@ -1,16 +1,6 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
-// export const indexGlows = (user) => {
-//   return axios({
-//     method: 'GET',
-//     url: apiUrl + '/glows/',
-//     headers: {
-//       'Authorization': `Token ${user.token}`
-//     }
-//   })
-// }
-
 export const showBoardGlows = (user, boardId) => {
   return axios({
     method: 'GET',
@@ -29,5 +19,25 @@ export const createGlows = (data, user, boardId) => {
       'Authorization': `Token ${user.token}`
     },
     data: data
+  })
+}
+
+export const showGlows = (user, id) => {
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/glows/' + id,
+    headers: {
+      'Authorization': `Token ${user.token}`
+    }
+  })
+}
+
+export const deleteGlows = (user, id) => {
+  return axios({
+    url: apiUrl + '/glows/' + id,
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Token ${user.token}`
+    }
   })
 }

@@ -115,6 +115,7 @@ const BoardShow = (props) => {
     return (
       <div
         onClick={() => {
+          props.history.push(`/glows/${glow.id}`)
           console.log(glow)
         }}
         className="index-glow-detail"
@@ -124,8 +125,7 @@ const BoardShow = (props) => {
           <blockquote className="blockquote mb-0">
             {glow.message}
             <footer className="blockquote-footer">
-              <small className="text-muted">{glow.name}
-              </small>
+              <small className="text-muted">{glow.name}</small>
             </footer>
           </blockquote>
         </div>

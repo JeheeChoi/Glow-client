@@ -18,7 +18,6 @@ const unauthenticatedOptions = (
 
 const alwaysOptions = (
   <Fragment>
-    <Nav.Link href="#/home">Home</Nav.Link>
   </Fragment>
 )
 

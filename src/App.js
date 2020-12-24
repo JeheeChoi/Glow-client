@@ -14,6 +14,7 @@ import BoardCreate from './components/CreateBoard'
 import BoardIndex from './components/IndexBoard'
 import BoardShow from './components/ShowBoard'
 import GlowCreate from './components/CreateGlow'
+import GlowShow from './components/ShowGlow'
 // import GlowIndex from './components/IndexGlow'
 
 class App extends Component {
@@ -83,8 +84,11 @@ class App extends Component {
               <BoardShow {...props} msgAlert={this.msgAlert} user={user} />
             )
           }} />
-          <AuthenticatedRoute user={user} path='/boards/:id/glows' render={(props) => (
+          <AuthenticatedRoute user={user} exact path='/boards/:id/glows' render={(props) => (
             <GlowCreate {...props} msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/glows/:id' render={(props) => (
+            <GlowShow {...props} msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>
