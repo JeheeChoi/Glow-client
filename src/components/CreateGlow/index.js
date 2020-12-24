@@ -46,13 +46,16 @@ const GlowCreate = props => {
     <div className="col-6 form-group">
       <h3>Create A New glow</h3>
       <form onSubmit={handleSubmit}>
-        <input
+        <textarea
           className="form-control"
+          cols="55"
+          rows="5"
           placeholder="Glow Message Here"
           value={glow.message}
           onChange={handleChange}
           name="message"
-        />
+        >
+        </textarea>
         <input
           className="form-control"
           placeholder="Author Name Here"

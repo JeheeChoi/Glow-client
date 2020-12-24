@@ -29,6 +29,9 @@ const BoardCreate = props => {
           variant: 'success'
         })
       })
+      .then(() => {
+        props.history.push('/home')
+      })
       .catch(error => {
         setBoard({ title: '', topic: '' })
         msgAlert({

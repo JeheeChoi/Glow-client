@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { showGlows, deleteGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 const GlowShow = props => {
   const [glow, setGlow] = useState({ message: '', name: '' })
@@ -56,12 +56,18 @@ const GlowShow = props => {
   return (
     <div className="col-12">
       {glow ? (
-        <div className="card border-red">
-          <p className="card-text">{glow.message}</p>
-          <p className="card-text">{glow.name}</p>
+        <div className="card p-3 text-right" id="glow-show">
+          <blockquote className="blockquote mb-0">
+            {glow.message}
+            <footer className="blockquote-footer">
+              <small className="text-muted">{glow.name}</small>
+            </footer>
+          </blockquote>
         </div>
       ) : 'Loading... '}
+      <Link to={'/boards/'}><button className="btn btn-outline-secondary">Go Back</button></Link>
       <button className="btn btn-outline-secondary" onClick={destroyGlow}>Delete</button>
+
     </div>
   )
 }

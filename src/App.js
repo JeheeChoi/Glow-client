@@ -84,7 +84,7 @@ class App extends Component {
               <BoardShow {...props} msgAlert={this.msgAlert} user={user} />
             )
           }} />
-          <AuthenticatedRoute user={user} exact path='/boards/:id/glows' render={(props) => (
+          <AuthenticatedRoute user={user} path='/boards/:id/glows' render={(props) => (
             <GlowCreate {...props} msgAlert={this.msgAlert} user={user} />
           )} />
           <AuthenticatedRoute user={user} path='/glows/:id' render={(props) => (

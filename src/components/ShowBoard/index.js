@@ -121,7 +121,7 @@ const BoardShow = (props) => {
         className="index-glow-detail"
         key={glow.id}
       >
-        <div className="card p-3 text-right">
+        <div className="card p-3 text-right" id="glow-show">
           <blockquote className="blockquote mb-0">
             {glow.message}
             <footer className="blockquote-footer">
@@ -136,7 +136,10 @@ const BoardShow = (props) => {
     <div className="row">
       {board ? (
         <div className="col-12">
-          <div className="card border-info">
+          <div className="card border-info" id="card-show">
+            <br/>
+            <br/>
+            <br/>
             <br/>
             <br/>
             <h2 className="card-title">{board.title}</h2>
