@@ -1,4 +1,4 @@
-# Glow On You SPA(Single Page Application)
+# Glow On You React SPA(Single Page Application)
 
 
 Glow On You(Glow) is inspired by "Glow And Grow" from GA. 
@@ -71,5 +71,5 @@ Glow app allows users to share Glow (more positive messages!) by creating a boar
 
 ## Unsolved Problems 
 
-
-
+- Adding partition id of the board 
+- Styling 
