@@ -29,9 +29,6 @@ const BoardCreate = props => {
           variant: 'success'
         })
       })
-      .then(() => {
-        props.history.push('/home')
-      })
       .catch(error => {
         setBoard({ title: '', topic: '' })
         msgAlert({
@@ -44,7 +41,7 @@ const BoardCreate = props => {
 
   if (createdBoardId) {
     return (
-      <Redirect to={'/home/'} />
+      <Redirect to={'/home/'}/>
     )
   }
 
@@ -66,7 +63,7 @@ const BoardCreate = props => {
           onChange={handleChange}
           name="topic"
         />
-        <button className="btn btn-outline-secondary" type="submit">Create A New Board Here!</button>
+        <button className="btn btn-outline-secondary" type="submit">Create Board</button>
       </form>
     </div>
   )

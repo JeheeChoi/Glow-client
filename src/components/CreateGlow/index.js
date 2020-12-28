@@ -28,6 +28,9 @@ const GlowCreate = props => {
           variant: 'success'
         })
       })
+      .then(() => {
+        props.history.push('/home')
+      })
       .catch(error => {
         setGlow({ message: '', name: '' })
         msgAlert({
@@ -43,28 +46,31 @@ const GlowCreate = props => {
     )
   }
   return (
-    <div className="col-6 form-group">
-      <h3>Create A New glow</h3>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          className="form-control"
-          cols="55"
-          rows="5"
-          placeholder="Glow Message Here"
-          value={glow.message}
-          onChange={handleChange}
-          name="message"
-        >
-        </textarea>
-        <input
-          className="form-control"
-          placeholder="Author Name Here"
-          value={glow.name}
-          onChange={handleChange}
-          name="name"
-        />
-        <button className="btn btn-outline-secondary" type="submit">Create</button>
-      </form>
+    <div>
+      <br/>
+      <div className="col-6 form-group">
+        <h3>Create A New glow</h3>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            className="form-control"
+            cols="55"
+            rows="5"
+            placeholder="Glow Message Here"
+            value={glow.message}
+            onChange={handleChange}
+            name="message"
+          >
+          </textarea>
+          <input
+            className="form-control"
+            placeholder="Author Name Here"
+            value={glow.name}
+            onChange={handleChange}
+            name="name"
+          />
+          <button className="btn btn-outline-secondary" type="submit">Create</button>
+        </form>
+      </div>
     </div>
   )
 }

@@ -34,7 +34,7 @@ const BoardIndex = (props) => {
     )
   } else if (boardArray.length === 0) {
     return (
-      'No Boards to display :('
+      'No Boards to display'
     )
   } else {
     return (
@@ -55,12 +55,12 @@ const BoardIndex = (props) => {
               <p className="card-text">{board.topic}</p>
             </div>
           ))}
-          <Link to={'/boards/'}>
+          <Link to={'/home/boards/'}>
             <div className="card border-info mb-3">
               <br/>
               <br/>
               <br/>
-              <Link to={'/home/boards/'}><p className="card-text"><button className="btn btn-outline-secondary">+</button></p></Link>
+              <Link to={'/home/boards/'}><p className="card-text">+ Add a new board</p></Link>
             </div>
           </Link>
         </div>

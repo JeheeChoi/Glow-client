@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
+// import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
+import { showBoards, deleteBoards } from '../../api/boards'
+
 import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect, Link } from 'react-router-dom'
@@ -9,7 +11,7 @@ import './index.css'
 const BoardShow = (props) => {
   const [board, setBoard] = useState({ title: '', topic: '' })
   const [deleted, setDeleted] = useState(false)
-  const [edited, setEdited] = useState(false)
+  // const [edited, setEdited] = useState(false)
   // Show glow messages
   const [glowArray, setGlowArray] = useState([])
 
@@ -39,20 +41,20 @@ const BoardShow = (props) => {
       .then(response => {
         setGlowArray(response.data.glows)
       })
-      .then(() => {
-        msgAlert({
-          heading: 'Index Glows Success',
-          message: 'See all the glows on this board!',
-          variant: 'success'
-        })
-      })
-      .catch(error => {
-        msgAlert({
-          heading: 'Index Glows Failed with error: ' + error.message,
-          message: messages.indexGlowsFailure,
-          variant: 'danger'
-        })
-      })
+      // .then(() => {
+      //   msgAlert({
+      //     heading: 'Index Glows Success',
+      //     message: 'See all the glows on this board!',
+      //     variant: 'success'
+      //   })
+      // })
+      // .catch(error => {
+      //   msgAlert({
+      //     heading: 'Index Glows Failed with error: ' + error.message,
+      //     message: messages.indexGlowsFailure,
+      //     variant: 'danger'
+      //   })
+      // })
   }, [])
 
   const destroyBoard = () => {
@@ -74,43 +76,41 @@ const BoardShow = (props) => {
       })
   }
 
-  const handleUpdateChange = event => {
-    event.persist()
-
-    setBoard(prevBoard => {
-      const updatedField = { [event.target.name]: event.target.value }
-      const updatedBoard = Object.assign({}, prevBoard, updatedField)
-      return updatedBoard
-    })
-  }
-
-  const handleUpdateSubmit = event => {
-    event.preventDefault()
-    updateBoards({ board }, user, match.params.id)
-      .then(() => {
-        return msgAlert({
-          heading: 'Successfully updated',
-          message: 'Updated Board:' + ' ' + board.title + ' - ' + board.topic,
-          variant: 'success'
-        })
-      })
-      .then(() => setEdited(true))
-      .catch(error => {
-        msgAlert({
-          heading: 'Update Board Failed with error: ' + error.message,
-          message: messages.updateBoardsFailure,
-          variant: 'danger'
-        })
-      })
-  }
+  // const handleUpdateChange = event => {
+  //   event.persist()
+  //   setBoard(prevBoard => {
+  //     const updatedField = { [event.target.name]: event.target.value }
+  //     const updatedBoard = Object.assign({}, prevBoard, updatedField)
+  //     return updatedBoard
+  //   })
+  // }
+  // const handleUpdateSubmit = event => {
+  //   event.preventDefault()
+  //   updateBoards({ board }, user, match.params.id)
+  //     .then(() => {
+  //       return msgAlert({
+  //         heading: 'Successfully updated',
+  //         message: 'Updated Board:' + ' ' + board.title + ' - ' + board.topic,
+  //         variant: 'success'
+  //       })
+  //     })
+  //     .then(() => setEdited(true))
+  //     .catch(error => {
+  //       msgAlert({
+  //         heading: 'Update Board Failed with error: ' + error.message,
+  //         message: messages.updateBoardsFailure,
+  //         variant: 'danger'
+  //       })
+  //     })
+  // }
 
   if (deleted) {
     return (
       <Redirect to={'/home'}/>
     )
   }
-  if (edited) {
-  }
+  // if (edited) {
+  // }
   const glows = glowArray.map(glow => {
     return (
       <div
@@ -121,15 +121,14 @@ const BoardShow = (props) => {
         className="index-glow-detail"
         key={glow.id}
       >
-        <div className="card p-3 text-right" id="glow-show">
-          <blockquote className="blockquote mb-0">
-            {glow.message}
-            <footer className="blockquote-footer">
-              <small className="text-muted">{glow.name}</small>
-            </footer>
-          </blockquote>
-        </div>
+        <blockquote className="blockquote mb-0" id="glow-message-text">
+          {glow.message}
+          <footer className="blockquote-footer">
+            <small className="text-muted">{glow.name}</small>
+          </footer>
+        </blockquote>
       </div>
+
     )
   })
   return (
@@ -138,43 +137,17 @@ const BoardShow = (props) => {
         {board ? (
           <div className="card border-info" id="card-show">
             <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <h2 className="card-title">{board.title}</h2>
+            {glows}
+            <h1 className="card-title">{board.title}</h1>
             <p className="card-text">{board.topic}</p>
           </div>
         ) : 'Loading...'}
       </div>
       <div className="col-12">
         <p><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>
-      </div>
-      <div className="col-6 form-group">
-        <form onSubmit={handleUpdateSubmit}>
-          <input
-            className="form-control"
-            placeholder="New Board Title Here"
-            onChange={handleUpdateChange}
-            name="title"
-            value={board.title}
-          />
-          <input
-            className="form-control"
-            placeholder="New Board Topic Here"
-            onChange={handleUpdateChange}
-            name="topic"
-            value={board.topic}
-          />
-          <button className="btn btn-outline-secondary" type="submit">Edit Board</button>
-        </form>
-      </div>
-      <div className="col-12">
+        <Link to={`/boards/${board.id}/update`}><button className="btn btn-outline-secondary">Edit</button></Link>
         <button className="btn btn-outline-secondary" onClick={destroyBoard}>Delete</button>
         <Link to={`/boards/${board.id}/glows`}><button className="btn btn-outline-secondary">Add A Glow Message</button></Link>
-        <div className="index-board-glows-container">
-          {glows}
-        </div>
       </div>
     </div>
   )

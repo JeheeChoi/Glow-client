@@ -23,13 +23,16 @@
 }
 
 #card-show {
-  min-width: 50rem;
-  min-height: 25rem;
+  min-width: 60rem;
+  min-height: 35rem;
 }
 
-#glow-show {
+/* #glow-show {
   max-width: 15rem;
   max-height: 10rem;
+} */
+#glow-message-text {
+  color: grey;
 }
 
 .card-title {

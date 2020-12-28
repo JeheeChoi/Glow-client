@@ -13,6 +13,7 @@ import ChangePassword from './components/ChangePassword/ChangePassword'
 import BoardCreate from './components/CreateBoard'
 import BoardIndex from './components/IndexBoard'
 import BoardShow from './components/ShowBoard'
+import BoardUpdate from './components/UpdateBoard'
 import GlowCreate from './components/CreateGlow'
 import GlowShow from './components/ShowGlow'
 // import GlowIndex from './components/IndexGlow'
@@ -84,6 +85,9 @@ class App extends Component {
               <BoardShow {...props} msgAlert={this.msgAlert} user={user} />
             )
           }} />
+          <AuthenticatedRoute user={user} path='/boards/:id/update' render={(props) => (
+            <BoardUpdate {...props} msgAlert={this.msgAlert} user={user} />
+          )} />
           <AuthenticatedRoute user={user} path='/boards/:id/glows' render={(props) => (
             <GlowCreate {...props} msgAlert={this.msgAlert} user={user} />
           )} />
