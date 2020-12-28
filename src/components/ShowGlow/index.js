@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { showGlows, deleteGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 const GlowShow = props => {
   const [glow, setGlow] = useState({ message: '', name: '' })
@@ -65,7 +65,7 @@ const GlowShow = props => {
           </blockquote>
         </div>
       ) : 'Loading... '}
-      <Link to={'/boards/'}><button className="btn btn-outline-secondary">Go Back</button></Link>
+      <Redirect to={'/boards/'}><button className="btn btn-outline-secondary">Go Back</button></Redirect>
       <button className="btn btn-outline-secondary" onClick={destroyGlow}>Delete</button>
 
     </div>

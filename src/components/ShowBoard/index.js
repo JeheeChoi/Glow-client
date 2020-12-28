@@ -134,8 +134,8 @@ const BoardShow = (props) => {
   })
   return (
     <div className="row">
-      {board ? (
-        <div className="col-12">
+      <div className="col-12">
+        {board ? (
           <div className="card border-info" id="card-show">
             <br/>
             <br/>
@@ -145,8 +145,8 @@ const BoardShow = (props) => {
             <h2 className="card-title">{board.title}</h2>
             <p className="card-text">{board.topic}</p>
           </div>
-        </div>
-      ) : 'Loading...'}
+        ) : 'Loading...'}
+      </div>
       <div className="col-12">
         <p><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>
       </div>
