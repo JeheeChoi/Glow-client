@@ -1,5 +1,5 @@
 # Glow On You React SPA(Single Page Application)
-
+![Screentshot1](https://i.imgur.com/Ya5nbGa.jpg)
 
 Glow On You(Glow) is inspired by "Glow And Grow" from GA. 
 GA SEI cohorts share feedback - glow(something ) & grow(something to improve) with each other on our projects.
