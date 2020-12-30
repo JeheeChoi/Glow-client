@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { createGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
+import './index.css'
 
 const GlowCreate = props => {
   const [glow, setGlow] = useState({ message: '', name: '' })
@@ -48,7 +49,7 @@ const GlowCreate = props => {
   return (
     <div>
       <br/>
-      <div className="col-6 form-group">
+      <div className="col-6 form-group" id="create-glow-form">
         <h3>Create A New glow</h3>
         <form onSubmit={handleSubmit}>
           <textarea

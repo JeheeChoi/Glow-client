@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { updateBoards, showBoards } from '../../api/boards'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect } from 'react-router-dom'
+import './index.css'
 
 const BoardUpdate = props => {
   const [board, setBoard] = useState({ title: '', topic: '' })
@@ -68,7 +69,7 @@ const BoardUpdate = props => {
   return (
     <div>
       <br/>
-      <div className="col-6 form-group">
+      <div className="col-6 form-group" id="update-board-form">
         <form onSubmit={handleUpdateSubmit}>
           <input
             className="form-control"
