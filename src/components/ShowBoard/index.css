@@ -35,6 +35,9 @@
   color: grey;
 }
 
+#showboard-buttons {
+  margin: 0px 0px 0px 525px;
+}
 .card-title {
   text-align: center;
 }

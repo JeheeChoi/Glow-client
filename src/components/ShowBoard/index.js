@@ -142,9 +142,10 @@ const BoardShow = (props) => {
             <p className="card-text">{board.topic}</p>
           </div>
         ) : 'Loading...'}
-      </div>
-      <div className="col-12">
         <p><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>
+      </div>
+      <div className="col-12" id="showboard-buttons">
+        <Link to={'/home'}><button className="btn btn-outline-secondary">Go Back</button></Link>
         <Link to={`/boards/${board.id}/update`}><button className="btn btn-outline-secondary">Edit</button></Link>
         <button className="btn btn-outline-secondary" onClick={destroyBoard}>Delete</button>
         <Link to={`/boards/${board.id}/glows`}><button className="btn btn-outline-secondary">Add A Glow Message</button></Link>

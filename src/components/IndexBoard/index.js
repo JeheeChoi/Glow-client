@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { indexBoards } from '../../api/boards'
 import messages from '../AutoDismissAlert/messages'
 import './index.css'
 
 const BoardIndex = (props) => {
-  const [boardArray, setBoardArray] = useState(null)
+  const [boards, setBoards] = useState([])
 
   useEffect(() => {
     const { user, msgAlert } = props
     indexBoards(user)
       .then(response => {
-        setBoardArray(response.data.boards)
+        setBoards(response.data.boards)
       })
       .then(() => {
         msgAlert({
@@ -28,11 +28,11 @@ const BoardIndex = (props) => {
         })
       })
   }, [])
-  if (!boardArray) {
+  if (!boards) {
     return (
       'Loading...'
     )
-  } else if (boardArray.length === 0) {
+  } else if (boards.length === 0) {
     return (
       'No Boards to display'
     )
@@ -40,7 +40,7 @@ const BoardIndex = (props) => {
     return (
       <div>
         <div className="card-container">
-          {boardArray.map(board => (
+          {boards.map(board => (
             <div
               onClick={() => {
                 props.history.push(`/boards/${board.id}`)
@@ -55,14 +55,17 @@ const BoardIndex = (props) => {
               <p className="card-text">{board.topic}</p>
             </div>
           ))}
-          <Link to={'/home/boards/'}>
-            <div className="card border-info mb-3">
-              <br/>
-              <br/>
-              <br/>
-              <Link to={'/home/boards/'}><p className="card-text">+ Add a new board</p></Link>
-            </div>
-          </Link>
+          <div
+            className="card border-info mb-3"
+            onClick={() => {
+              props.history.push('/home/boards')
+            }}
+          >
+            <br/>
+            <br/>
+            <br/>
+            <p className="card-text">+ Add a new board</p>
+          </div>
         </div>
       </div>
     )
