@@ -34,7 +34,17 @@ const BoardIndex = (props) => {
     )
   } else if (boards.length === 0) {
     return (
-      'No Boards to display'
+      <div
+        className="card border-info mb-3"
+        onClick={() => {
+          props.history.push('/home/boards')
+        }}
+      >
+        <br/>
+        <br/>
+        <br/>
+        <p className="card-text">+ Add a new board</p>
+      </div>
     )
   } else {
     return (
