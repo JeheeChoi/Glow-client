@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { indexBoards } from '../../api/boards'
 import messages from '../AutoDismissAlert/messages'
-import './index.css'
+import './index.scss'
 
 const BoardIndex = (props) => {
   const [boards, setBoards] = useState([])
@@ -66,15 +66,9 @@ const BoardIndex = (props) => {
             </div>
           ))}
           <div
-            className="card border-info mb-3"
-            onClick={() => {
-              props.history.push('/home/boards')
-            }}
+            className="create-btn"
           >
-            <br/>
-            <br/>
-            <br/>
-            <p className="card-text">+ Add a new board</p>
+            <Link to={'/home/boards'}><button className="btn btn-outline-info">Add a new board</button></Link>
           </div>
         </div>
       </div>
