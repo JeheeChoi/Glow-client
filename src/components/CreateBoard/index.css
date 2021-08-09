@@ -1,0 +1,5 @@
+.create-board {
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px 10px 0px 0px;
+}

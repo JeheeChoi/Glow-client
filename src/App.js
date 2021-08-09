@@ -73,11 +73,11 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/home/boards' render={(props) => (
-            <BoardCreate {...props} msgAlert={this.msgAlert} user={user} />
-          )} />
           <AuthenticatedRoute user={user} path='/home' render={(props) => (
-            <BoardIndex {...props} msgAlert={this.msgAlert} user={user} />
+            <Fragment>
+              <BoardCreate {...props} msgAlert={this.msgAlert} user={user} />
+              <BoardIndex {...props} msgAlert={this.msgAlert} user={user} />
+            </Fragment>
           )} />
           <AuthenticatedRoute user={user} path='/boards/:id' render={(props) => {
             console.log(props)

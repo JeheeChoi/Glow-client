@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { indexBoards } from '../../api/boards'
 import messages from '../AutoDismissAlert/messages'
 import './index.scss'
 
-const BoardIndex = (props) => {
+const BoardIndex = props => {
+  // Index boards
   const [boards, setBoards] = useState([])
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const BoardIndex = (props) => {
         })
       })
   }, [])
+
   if (!boards) {
     return (
       'Loading...'
@@ -54,7 +56,6 @@ const BoardIndex = (props) => {
             <div
               onClick={() => {
                 props.history.push(`/boards/${board.id}`)
-                console.log(board)
               }}
               className="card border-info mb-3"
               key={board.id}
@@ -65,11 +66,6 @@ const BoardIndex = (props) => {
               <p className="card-text">{board.topic}</p>
             </div>
           ))}
-          <div
-            className="create-btn"
-          >
-            <Link to={'/home/boards'}><button className="btn btn-outline-info">Add a new board</button></Link>
-          </div>
         </div>
       </div>
     )
