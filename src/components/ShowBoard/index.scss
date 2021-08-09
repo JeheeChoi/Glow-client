@@ -36,8 +36,16 @@
 }
 
 #showboard-buttons {
-  margin: 0px 0px 0px 525px;
+  visibility: hidden;
 }
+
+.card:hover #showboard-buttons {
+  visibility: visible;
+  justify-content: center;
+  text-align: center;
+}
+
+
 .card-title {
   justify-content: center;
   text-align: center;
