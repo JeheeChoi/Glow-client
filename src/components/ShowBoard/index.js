@@ -5,7 +5,7 @@ import { showBoards, deleteBoards } from '../../api/boards'
 import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect, Link } from 'react-router-dom'
-import './index.css'
+import './index.scss'
 
 // Board detail info with delete/update feature
 const BoardShow = (props) => {
@@ -140,6 +140,7 @@ const BoardShow = (props) => {
             {glows}
             <h1 className="card-title">{board.title}</h1>
             <p className="card-text">{board.topic}</p>
+            <h4 className="card-hover-text">Click to add a glow message on this board</h4>
           </div>
         ) : 'Loading...'}
         <p><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>

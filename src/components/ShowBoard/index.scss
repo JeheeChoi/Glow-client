@@ -39,12 +39,25 @@
   margin: 0px 0px 0px 525px;
 }
 .card-title {
+  justify-content: center;
   text-align: center;
 }
 
 .card-text {
+  justify-content: center;
   text-align: center;
 }
+
+.card-hover-text {
+  visibility: hidden;
+}
+
+.card:hover .card-hover-text {
+  color: grey;
+  visibility: visible;
+  text-align: center;
+}
+
 
 /* .index-glow-detail {
   background-color: lightgrey;
