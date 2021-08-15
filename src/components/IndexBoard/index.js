@@ -58,6 +58,7 @@ const BoardIndex = props => {
                 props.history.push(`/boards/${board.id}`)
               }}
               className="card shadow-lg p-3 mb-5 bg-white rounded"
+              id="card-index"
               key={board.id}
             >
               <br/>

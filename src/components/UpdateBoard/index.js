@@ -67,7 +67,7 @@ const BoardUpdate = props => {
     )
   }
   return (
-    <div>
+    <div className="update-board">
       <br/>
       <div className="col-6 form-group" id="update-board-form">
         <form onSubmit={handleUpdateSubmit}>

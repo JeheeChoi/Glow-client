@@ -6,12 +6,14 @@ import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect, Link } from 'react-router-dom'
 import './index.scss'
+// import GlowCreate from '../CreateGlow'
+// import BoardUpdate from '../UpdateBoard'
 
 // Board detail info with delete/update feature
 const BoardShow = (props) => {
   const [board, setBoard] = useState({ title: '', topic: '' })
   const [deleted, setDeleted] = useState(false)
-  // const [edited, setEdited] = useState(false)
+  // const [updateFormShow, setUpdateFormShow] = useState(false)
   // Show glow messages
   const [glowArray, setGlowArray] = useState([])
 
@@ -131,6 +133,32 @@ const BoardShow = (props) => {
 
     )
   })
+
+  // const form = () => {
+  //   return (
+  //     <div className="update-board">
+  //       <br/>
+  //       <div className="col-6 form-group" id="update-board-form">
+  //         <form>
+  //           <input
+  //             className="form-control"
+  //             placeholder="New Board Title Here"
+  //             name="title"
+  //             value={board.title}
+  //           />
+  //           <input
+  //             className="form-control"
+  //             placeholder="New Board Topic Here"
+  //             name="topic"
+  //             value={board.topic}
+  //           />
+  //           <button className="btn btn-outline-secondary" type="submit">Update Board</button>
+  //         </form>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
   return (
     <div className="row">
       <div className="col-12">
@@ -142,13 +170,14 @@ const BoardShow = (props) => {
             <p className="card-text">{board.topic}</p>
             <div className="col-12" id="showboard-buttons">
               <Link to={'/home'}><button className="btn btn-outline-secondary">Go Back</button></Link>
-              <Link to={`/boards/${board.id}/update`}><button className="btn btn-outline-secondary">Edit</button></Link>
+              {/* <Link to={`/boards/${board.id}/update`}><button className="btn btn-outline-secondary">Edit</button></Link> */}
+              <button className="btn btn-outline-secondary" onClick={() => props.history.push(`/boards/${board.id}/update`)} block>Edit</button>
               <button className="btn btn-outline-secondary" onClick={destroyBoard}>Delete</button>
               <Link to={`/boards/${board.id}/glows`}><button className="btn btn-outline-secondary">Add A Glow Message</button></Link>
             </div>
           </div>
         ) : 'Loading...'}
-        <p><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>
+        <p className="create-date-info"><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>
       </div>
     </div>
   )

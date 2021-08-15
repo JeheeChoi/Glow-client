@@ -21,10 +21,10 @@
 //     // transform:scale(1.1);
 //   }
 // }
-.card {
+#card-index {
   position: relative;
-  min-width: 300px;
-  height: auto;
+  width: 350px;
+  height: 250px;
   overflow: hidden;
   border-radius: 15px;
   margin: 0 auto;
@@ -33,11 +33,11 @@
   transition: .5s;
 }
 
-.card:hover {
+#card-index:hover {
   transform:scale(1.1);
 }
 
-.card:before {
+#card-index:before {
   content: '';
   position: absolute;
   bottom: 0;

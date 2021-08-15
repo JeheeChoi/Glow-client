@@ -8,9 +8,13 @@
   flex-flow: row wrap;
 } */
 
-.card {
-  min-width: 22rem;
-  min-height: 13rem;
+.row {
+  padding: 40px;
+}
+#card-show {
+  position: absolute;
+  min-width: 60rem;
+  min-height: 35rem;
   max-width: 30rem;
   max-height: 18rem;
   /* min-width: 50rem;
@@ -21,11 +25,10 @@
   background-color: white;
   cursor: pointer;
 }
-
-#card-show {
-  min-width: 60rem;
-  min-height: 35rem;
-}
+// 
+// #card-show {
+//
+// }
 
 /* #glow-show {
   max-width: 15rem;
@@ -44,7 +47,6 @@
   justify-content: center;
   text-align: center;
 }
-
 
 .card-title {
   justify-content: center;
@@ -65,7 +67,6 @@
   visibility: visible;
   text-align: center;
 }
-
 
 /* .index-glow-detail {
   background-color: lightgrey;
