@@ -5,7 +5,7 @@ import { showBoards, deleteBoards } from '../../api/boards'
 import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect } from 'react-router-dom'
-// import Button from 'react-bootstrap/Button'
+import { Modal, Button } from 'react-bootstrap'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import './index.scss'
@@ -15,6 +15,7 @@ import './index.scss'
 // Board detail info with delete/update feature
 const BoardShow = (props) => {
   const [board, setBoard] = useState({ title: '', topic: '' })
+  const [deleteModalShow, setDeleteModalShow] = useState(false)
   const [deleted, setDeleted] = useState(false)
   // const [updateFormShow, setUpdateFormShow] = useState(false)
   // Show glow messages
@@ -85,7 +86,7 @@ const BoardShow = (props) => {
   const radios = [
     { name: 'Go Back', value: '1' },
     { name: 'Edit', value: '2', link: 'update' },
-    // { name: 'Delete', value: '3' },
+    { name: 'Delete', value: '3', link: 'delete' },
     { name: 'Add Glow Message', value: '4', link: 'glows' }
   ]
 
@@ -180,13 +181,6 @@ const BoardShow = (props) => {
             <h1 className="card-title">{board.title}</h1>
             <p className="card-text">{board.topic}</p>
             <div className="col-12" id="showboard-buttons">
-              <button className="btn btn-outline-secondary" id="back" type="radio" onClick={() => props.history.push('/home')}>Go Back</button>
-              {/* }<Link to={'/home'}><button className="btn btn-outline-secondary">Go Back</button></Link> */}
-              {/* <Link to={`/boards/${board.id}/update`}><button className="btn btn-outline-secondary">Edit</button></Link> */}
-              <button className="btn btn-outline-secondary" id="edit" type="radio" onClick={() => props.history.push(`/boards/${board.id}/update`)}>Edit</button>
-              <button className="btn btn-outline-secondary" onClick={destroyBoard}>Delete</button>
-              <button className="btn btn-outline-secondary" onClick={() => props.history.push(`/boards/${board.id}/glows`)}>Add A Glow Message</button>
-              {/* <Link to={`/boards/${board.id}/glows`}><button className="btn btn-outline-secondary">Add A Glow Message</button></Link> */}
               <ButtonGroup>
                 {radios.map((radio, idx) => (
                   <ToggleButton
@@ -201,7 +195,8 @@ const BoardShow = (props) => {
                     onClick={() => {
                       radio.value === '1'
                         ? props.history.push('/home')
-                        : props.history.push(`/boards/${board.id}/${radio.link}`)
+                        : radio.value === '3' ? setDeleteModalShow(true)
+                          : props.history.push(`/boards/${board.id}/${radio.link}`)
                     }}
                   >
                     {radio.name}
@@ -213,6 +208,30 @@ const BoardShow = (props) => {
         ) : 'Loading...'}
         <p className="create-date-info"><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>
       </div>
+
+      <Modal
+        show={deleteModalShow}
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Confirmation
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Would you like to delete</h4>
+          <br/>
+          <h3>{board.title} - {board.topic} board?</h3>
+          <br/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setDeleteModalShow(false)}>Close</Button>
+          <Button variant="primary" onClick={destroyBoard}>Delete</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
