@@ -4,7 +4,10 @@ import { showBoards, deleteBoards } from '../../api/boards'
 
 import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
+// import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import ToggleButton from 'react-bootstrap/ToggleButton'
 import './index.scss'
 // import GlowCreate from '../CreateGlow'
 // import BoardUpdate from '../UpdateBoard'
@@ -16,6 +19,7 @@ const BoardShow = (props) => {
   // const [updateFormShow, setUpdateFormShow] = useState(false)
   // Show glow messages
   const [glowArray, setGlowArray] = useState([])
+  const [radioValue, setRadioValue] = useState('0')
 
   const { user, msgAlert, match } = props
 
@@ -77,6 +81,13 @@ const BoardShow = (props) => {
         })
       })
   }
+
+  const radios = [
+    { name: 'Go Back', value: '1' },
+    { name: 'Edit', value: '2', link: 'update' },
+    // { name: 'Delete', value: '3' },
+    { name: 'Add Glow Message', value: '4', link: 'glows' }
+  ]
 
   // const handleUpdateChange = event => {
   //   event.persist()
@@ -169,11 +180,34 @@ const BoardShow = (props) => {
             <h1 className="card-title">{board.title}</h1>
             <p className="card-text">{board.topic}</p>
             <div className="col-12" id="showboard-buttons">
-              <Link to={'/home'}><button className="btn btn-outline-secondary">Go Back</button></Link>
+              <button className="btn btn-outline-secondary" id="back" type="radio" onClick={() => props.history.push('/home')}>Go Back</button>
+              {/* }<Link to={'/home'}><button className="btn btn-outline-secondary">Go Back</button></Link> */}
               {/* <Link to={`/boards/${board.id}/update`}><button className="btn btn-outline-secondary">Edit</button></Link> */}
-              <button className="btn btn-outline-secondary" onClick={() => props.history.push(`/boards/${board.id}/update`)} block>Edit</button>
+              <button className="btn btn-outline-secondary" id="edit" type="radio" onClick={() => props.history.push(`/boards/${board.id}/update`)}>Edit</button>
               <button className="btn btn-outline-secondary" onClick={destroyBoard}>Delete</button>
-              <Link to={`/boards/${board.id}/glows`}><button className="btn btn-outline-secondary">Add A Glow Message</button></Link>
+              <button className="btn btn-outline-secondary" onClick={() => props.history.push(`/boards/${board.id}/glows`)}>Add A Glow Message</button>
+              {/* <Link to={`/boards/${board.id}/glows`}><button className="btn btn-outline-secondary">Add A Glow Message</button></Link> */}
+              <ButtonGroup>
+                {radios.map((radio, idx) => (
+                  <ToggleButton
+                    key={idx}
+                    id={`radio-${idx}`}
+                    type="radio"
+                    variant={'btn btn-outline-secondary'}
+                    name="radio"
+                    value={radio.value}
+                    checked={radioValue === radio.value}
+                    onChange={(e) => setRadioValue(e.currentTarget.value)}
+                    onClick={() => {
+                      radio.value === '1'
+                        ? props.history.push('/home')
+                        : props.history.push(`/boards/${board.id}/${radio.link}`)
+                    }}
+                  >
+                    {radio.name}
+                  </ToggleButton>
+                ))}
+              </ButtonGroup>
             </div>
           </div>
         ) : 'Loading...'}

@@ -50,7 +50,7 @@ const GlowCreate = props => {
     <div>
       <br/>
       <div className="col-6 form-group" id="create-glow-form">
-        <h3>Create A New glow</h3>
+        <h3>New Glow Message</h3>
         <form onSubmit={handleSubmit}>
           <textarea
             className="form-control"

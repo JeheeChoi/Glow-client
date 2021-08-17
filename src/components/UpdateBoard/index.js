@@ -70,6 +70,7 @@ const BoardUpdate = props => {
     <div className="update-board">
       <br/>
       <div className="col-6 form-group" id="update-board-form">
+        <h3>Update Board Info</h3>
         <form onSubmit={handleUpdateSubmit}>
           <input
             className="form-control"

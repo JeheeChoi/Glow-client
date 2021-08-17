@@ -25,7 +25,7 @@
   background-color: white;
   cursor: pointer;
 }
-// 
+//
 // #card-show {
 //
 // }
@@ -38,13 +38,19 @@
   color: grey;
 }
 
-#showboard-buttons {
-  visibility: hidden;
-}
+// .card #showboard-buttons {
+//   visibility: hidden;
+// }
 
-.card:hover #showboard-buttons {
-  visibility: visible;
+// .card:not(:focus):hover #showboard-buttons {
+//   visibility: visible;
+//   justify-content: center;
+//   text-align: center;
+// }
+
+#showboard-buttons {
   justify-content: center;
+  align-items: flex-end;
   text-align: center;
 }
 
