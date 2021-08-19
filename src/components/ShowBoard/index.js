@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 // import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
-import { showBoards, deleteBoards } from '../../api/boards'
+import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
 
 import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
@@ -16,8 +16,10 @@ import './index.scss'
 const BoardShow = (props) => {
   const [board, setBoard] = useState({ title: '', topic: '' })
   const [deleteModalShow, setDeleteModalShow] = useState(false)
+  const [updateModalShow, setUpdateModalShow] = useState(false)
+  const [edited, setEdited] = useState(false)
   const [deleted, setDeleted] = useState(false)
-  // const [updateFormShow, setUpdateFormShow] = useState(false)
+
   // Show glow messages
   const [glowArray, setGlowArray] = useState([])
   const [radioValue, setRadioValue] = useState('0')
@@ -83,9 +85,39 @@ const BoardShow = (props) => {
       })
   }
 
+  const handleUpdateChange = event => {
+    event.persist()
+
+    setBoard(prevBoard => {
+      const updatedField = { [event.target.name]: event.target.value }
+      const updatedBoard = Object.assign({}, prevBoard, updatedField)
+      return updatedBoard
+    })
+  }
+
+  const handleUpdateSubmit = event => {
+    event.preventDefault()
+    updateBoards({ board }, user, match.params.id)
+      .then(() => {
+        return msgAlert({
+          heading: 'Successfully updated',
+          message: 'Updated Board:' + ' ' + board.title + ' - ' + board.topic,
+          variant: 'success'
+        })
+      })
+      .then(() => setEdited(true))
+      .catch(error => {
+        msgAlert({
+          heading: 'Update Board Failed with error: ' + error.message,
+          message: messages.updateBoardsFailure,
+          variant: 'danger'
+        })
+      })
+  }
+
   const radios = [
     { name: 'Go Back', value: '1' },
-    { name: 'Edit', value: '2', link: 'update' },
+    { name: 'Edit', value: '2' },
     { name: 'Delete', value: '3', link: 'delete' },
     { name: 'Add Glow Message', value: '4', link: 'glows' }
   ]
@@ -118,12 +150,15 @@ const BoardShow = (props) => {
   //     })
   // }
 
-  if (deleted) {
+  if (deleted || edited) {
     return (
       <Redirect to={'/home'}/>
     )
   }
   // if (edited) {
+  //   return (
+  //     <Redirect to={'/home'}/>
+  //   )
   // }
   const glows = glowArray.map(glow => {
     return (
@@ -195,8 +230,9 @@ const BoardShow = (props) => {
                     onClick={() => {
                       radio.value === '1'
                         ? props.history.push('/home')
-                        : radio.value === '3' ? setDeleteModalShow(true)
-                          : props.history.push(`/boards/${board.id}/${radio.link}`)
+                        : radio.value === '2' ? setUpdateModalShow(true)
+                          : radio.value === '3' ? setDeleteModalShow(true)
+                            : props.history.push(`/boards/${board.id}/${radio.link}`)
                     }}
                   >
                     {radio.name}
@@ -222,17 +258,57 @@ const BoardShow = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>Would you like to delete</h4>
+          <h5>Would you like to delete</h5>
           <br/>
           <h3>{board.title} - {board.topic} board?</h3>
           <br/>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setDeleteModalShow(false)}>Close</Button>
-          <Button variant="primary" onClick={destroyBoard}>Delete</Button>
+          <Button variant="btn btn-secondary" onClick={() => setDeleteModalShow(false)}>Close</Button>
+          <Button variant="info" onClick={destroyBoard}>Delete</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={updateModalShow}
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Update Board
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>New Board Title</h5>
+          <form onSubmit={handleUpdateSubmit}>
+            <input
+              className="form-control"
+              placeholder="New Board Title Here"
+              onChange={handleUpdateChange}
+              name="title"
+              value={board.title}
+            />
+            <br/>
+            <h5>New Board Topic</h5>
+            <input
+              className="form-control"
+              placeholder="New Board Topic Here"
+              onChange={handleUpdateChange}
+              name="topic"
+              value={board.topic}
+            />
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={() => setUpdateModalShow(false)}>Close</button>
+          <button className="btn btn-info" onClick={handleUpdateSubmit}>Save Changes</button>
         </Modal.Footer>
       </Modal>
     </div>
+
   )
 }
 
