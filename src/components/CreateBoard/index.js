@@ -6,7 +6,7 @@ import { createBoards } from '../../api/boards'
 import './index.css'
 import messages from '../AutoDismissAlert/messages'
 // import CreateBoardForm from './modal'
-import { Modal } from 'react-bootstrap'
+import Modal from 'react-bootstrap/Modal'
 
 const BoardCreate = props => {
   const [createModalShow, setCreateModalShow] = useState(false)
@@ -72,33 +72,28 @@ const BoardCreate = props => {
         </Modal.Header>
         <Modal.Body>
           <form>
-            <div className="form-group">
-              <label className="col-form-label">Title:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="title"
-                onChange={handleChange}
-                value={board.title}
-              />
-              <div className="form-group">
-                <label className="col-form-label">Message:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="topic"
-                  onChange={handleChange}
-                  value={board.topic}
-                />
-              </div>
-            </div>
+            <h5>Board Title</h5>
+            <input
+              type="text"
+              className="form-control"
+              name="title"
+              onChange={handleChange}
+              value={board.title}
+            />
+            <h5>Board Topic</h5>
+            <input
+              type="text"
+              className="form-control"
+              name="topic"
+              onChange={handleChange}
+              value={board.topic}
+            />
           </form>
-          <div className="modal-footer">
-            <button className="btn btn-info" onClick={() => setCreateModalShow(false)}>Close</button>
-            <button className="btn btn-info" onClick={handleSubmit}>Create</button>
-          </div>
-
         </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={() => setCreateModalShow(false)}>Close</button>
+          <button className="btn btn-info" onClick={handleSubmit}>Create</button>
+        </Modal.Footer>
       </Modal>
     </div>
   )

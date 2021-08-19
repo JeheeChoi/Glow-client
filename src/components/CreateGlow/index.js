@@ -64,12 +64,12 @@ const GlowCreate = props => {
           </textarea>
           <input
             className="form-control"
-            placeholder="Author Name Here"
+            placeholder="Your Name Here"
             value={glow.name}
             onChange={handleChange}
             name="name"
           />
-          <button className="btn btn-outline-secondary" type="submit">Create</button>
+          <button className="btn btn-info" type="submit">Submit</button>
         </form>
       </div>
     </div>
