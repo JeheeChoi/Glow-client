@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 // import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
 import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
+import { createGlows, showBoardGlows } from '../../api/glows'
 
-import { showBoardGlows } from '../../api/glows'
 import messages from '../AutoDismissAlert/messages'
 import { Redirect } from 'react-router-dom'
 import { Modal, Button } from 'react-bootstrap'
@@ -15,11 +15,16 @@ import './index.scss'
 // Board detail info with delete/update feature
 const BoardShow = (props) => {
   const [board, setBoard] = useState({ title: '', topic: '' })
-  const [deleteModalShow, setDeleteModalShow] = useState(false)
+  // Create glow messages
+  const [createGlowModalShow, setCreateGlowModalShow] = useState(false)
+  const [glow, setGlow] = useState({ message: '', name: '' })
+  const [createdGlowId, setCreatedGlowId] = useState(null)
+  // Update board info
   const [updateModalShow, setUpdateModalShow] = useState(false)
   const [edited, setEdited] = useState(false)
+  // Delete board with confirmation modal
+  const [deleteModalShow, setDeleteModalShow] = useState(false)
   const [deleted, setDeleted] = useState(false)
-
   // Show glow messages
   const [glowArray, setGlowArray] = useState([])
   const [radioValue, setRadioValue] = useState('0')
@@ -50,20 +55,6 @@ const BoardShow = (props) => {
       .then(response => {
         setGlowArray(response.data.glows)
       })
-      // .then(() => {
-      //   msgAlert({
-      //     heading: 'Index Glows Success',
-      //     message: 'See all the glows on this board!',
-      //     variant: 'success'
-      //   })
-      // })
-      // .catch(error => {
-      //   msgAlert({
-      //     heading: 'Index Glows Failed with error: ' + error.message,
-      //     message: messages.indexGlowsFailure,
-      //     variant: 'danger'
-      //   })
-      // })
   }, [])
 
   const destroyBoard = () => {
@@ -80,6 +71,40 @@ const BoardShow = (props) => {
         msgAlert({
           heading: 'Delete Board Failed with error: ' + error.message,
           message: messages.deleteBoardsFailure,
+          variant: 'danger'
+        })
+      })
+  }
+
+  const handleCreateChange = event => {
+    event.persist()
+    setGlow(prevGlow => {
+      const updatedField = { [event.target.name]: event.target.value }
+      const updatedGlow = Object.assign({}, prevGlow, updatedField)
+      return updatedGlow
+    })
+  }
+
+  const handleCreateSubmit = event => {
+    event.preventDefault()
+    const { user, msgAlert, match } = props
+    createGlows({ glow }, user, match.params.id)
+      .then(response => {
+        setCreatedGlowId(response.data.glow.id)
+        return msgAlert({
+          heading: 'Successfully Created',
+          message: 'Created Glow:' + ' ' + response.data.glow.message + ' - ' + response.data.glow.name,
+          variant: 'success'
+        })
+      })
+      .then(() => setCreateGlowModalShow(false))
+      .then(() => setGlow({ message: '', name: '' })
+      )
+      .catch(error => {
+        setGlow({ message: '', name: '' })
+        msgAlert({
+          heading: 'Create Glow Failed with error: ' + error.message,
+          message: messages.createGlowsFailure,
           variant: 'danger'
         })
       })
@@ -114,52 +139,6 @@ const BoardShow = (props) => {
         })
       })
   }
-
-  const radios = [
-    { name: 'Go Back', value: '1' },
-    { name: 'Edit', value: '2' },
-    { name: 'Delete', value: '3', link: 'delete' },
-    { name: 'Add Glow Message', value: '4', link: 'glows' }
-  ]
-
-  // const handleUpdateChange = event => {
-  //   event.persist()
-  //   setBoard(prevBoard => {
-  //     const updatedField = { [event.target.name]: event.target.value }
-  //     const updatedBoard = Object.assign({}, prevBoard, updatedField)
-  //     return updatedBoard
-  //   })
-  // }
-  // const handleUpdateSubmit = event => {
-  //   event.preventDefault()
-  //   updateBoards({ board }, user, match.params.id)
-  //     .then(() => {
-  //       return msgAlert({
-  //         heading: 'Successfully updated',
-  //         message: 'Updated Board:' + ' ' + board.title + ' - ' + board.topic,
-  //         variant: 'success'
-  //       })
-  //     })
-  //     .then(() => setEdited(true))
-  //     .catch(error => {
-  //       msgAlert({
-  //         heading: 'Update Board Failed with error: ' + error.message,
-  //         message: messages.updateBoardsFailure,
-  //         variant: 'danger'
-  //       })
-  //     })
-  // }
-
-  if (deleted || edited) {
-    return (
-      <Redirect to={'/home'}/>
-    )
-  }
-  // if (edited) {
-  //   return (
-  //     <Redirect to={'/home'}/>
-  //   )
-  // }
   const glows = glowArray.map(glow => {
     return (
       <div
@@ -181,31 +160,28 @@ const BoardShow = (props) => {
     )
   })
 
-  // const form = () => {
+  const radios = [
+    { name: 'Go Back', value: '1' },
+    { name: 'Edit', value: '2' },
+    { name: 'Delete', value: '3' },
+    { name: 'Add Glow Message', value: '4' }
+  ]
+
+  if (deleted || edited) {
+    return (
+      <Redirect to={'/home'}/>
+    )
+  }
+  if (createdGlowId) {
   //   return (
-  //     <div className="update-board">
-  //       <br/>
-  //       <div className="col-6 form-group" id="update-board-form">
-  //         <form>
-  //           <input
-  //             className="form-control"
-  //             placeholder="New Board Title Here"
-  //             name="title"
-  //             value={board.title}
-  //           />
-  //           <input
-  //             className="form-control"
-  //             placeholder="New Board Topic Here"
-  //             name="topic"
-  //             value={board.topic}
-  //           />
-  //           <button className="btn btn-outline-secondary" type="submit">Update Board</button>
-  //         </form>
-  //       </div>
-  //     </div>
+  //     <Redirect to={`boards/${board.id}`} />
+  //   )
+  }
+  // if (edited) {
+  //   return (
+  //     <Redirect to={'/home'}/>
   //   )
   // }
-
   return (
     <div className="row">
       <div className="col-12">
@@ -224,6 +200,7 @@ const BoardShow = (props) => {
                     type="radio"
                     variant={'btn btn-outline-secondary'}
                     name="radio"
+                    className="buttons"
                     value={radio.value}
                     checked={radioValue === radio.value}
                     onChange={(e) => setRadioValue(e.currentTarget.value)}
@@ -232,7 +209,7 @@ const BoardShow = (props) => {
                         ? props.history.push('/home')
                         : radio.value === '2' ? setUpdateModalShow(true)
                           : radio.value === '3' ? setDeleteModalShow(true)
-                            : props.history.push(`/boards/${board.id}/${radio.link}`)
+                            : setCreateGlowModalShow(true)
                     }}
                   >
                     {radio.name}
@@ -307,6 +284,48 @@ const BoardShow = (props) => {
           <button className="btn btn-info" onClick={handleUpdateSubmit}>Save Changes</button>
         </Modal.Footer>
       </Modal>
+
+      <Modal
+        show={createGlowModalShow}
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            A New Glow Message for {board.title}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleCreateSubmit}>
+            <h5>Message</h5>
+            <textarea
+              className="form-control"
+              cols="55"
+              rows="5"
+              placeholder="Glow Message Here"
+              value={glow.message}
+              onChange={handleCreateChange}
+              name="message"
+            >
+            </textarea>
+            <h5>From</h5>
+            <input
+              className="form-control"
+              placeholder="Your Name Here"
+              value={glow.name}
+              onChange={handleCreateChange}
+              name="name"
+            />
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="btn btn-secondary" onClick={() => setCreateGlowModalShow(false)}>Close</Button>
+          <Button variant="info" onClick={handleCreateSubmit}>Submit</Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
 
   )

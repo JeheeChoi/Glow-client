@@ -23,7 +23,6 @@
   max-height: 40rem; */
   padding: 0.5rem;
   background-color: white;
-  cursor: pointer;
 }
 //
 // #card-show {
@@ -36,6 +35,11 @@
 } */
 #glow-message-text {
   color: grey;
+}
+
+.index-glow-detail:hover {
+  border: 1px solid grey;
+  cursor: pointer;
 }
 
 // .card #showboard-buttons {
@@ -52,6 +56,10 @@
   justify-content: center;
   align-items: flex-end;
   text-align: center;
+}
+
+.buttons:hover {
+  cursor: pointer;
 }
 
 .card-title {
