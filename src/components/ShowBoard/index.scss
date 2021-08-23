@@ -34,14 +34,28 @@
   max-height: 10rem;
 } */
 #glow-message-text {
+  // justify-content: space-between;
   color: grey;
 }
+.index-glow-detail {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
 
 .index-glow-detail:hover {
   border: 1px solid grey;
   cursor: pointer;
 }
 
+.index-glow-detail #glow-button {
+  visibility: hidden;
+}
+
+.index-glow-detail:hover #glow-button {
+  visibility: visible;
+}
 // .card #showboard-buttons {
 //   visibility: hidden;
 // }
@@ -72,15 +86,15 @@
   text-align: center;
 }
 
-.card-hover-text {
-  visibility: hidden;
-}
-
-.card:hover .card-hover-text {
-  color: grey;
-  visibility: visible;
-  text-align: center;
-}
+// .card-hover-text {
+//   visibility: hidden;
+// }
+//
+// .card:hover .card-hover-text {
+//   color: grey;
+//   visibility: visible;
+//   text-align: center;
+// }
 
 /* .index-glow-detail {
   background-color: lightgrey;

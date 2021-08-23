@@ -14,7 +14,7 @@ import BoardCreate from './components/CreateBoard'
 import BoardIndex from './components/IndexBoard'
 import BoardShow from './components/ShowBoard'
 // import BoardUpdate from './components/UpdateBoard'
-import GlowCreate from './components/CreateGlow'
+// import GlowCreate from './components/CreateGlow'
 import GlowShow from './components/ShowGlow'
 // import GlowIndex from './components/IndexGlow'
 
@@ -80,7 +80,7 @@ class App extends Component {
             </Fragment>
           )} />
           <AuthenticatedRoute user={user} path='/boards/:id' render={(props) => {
-            console.log(props)
+            console.log('this is props from app.js - boardshow: ', props)
             return (
               <BoardShow {...props} msgAlert={this.msgAlert} user={user} />
             )
@@ -88,10 +88,10 @@ class App extends Component {
           {/* }<AuthenticatedRoute user={user} path='/boards/:id/update' render={(props) => (
             <BoardUpdate {...props} msgAlert={this.msgAlert} user={user} />
           )} /> */}
-          <AuthenticatedRoute user={user} path='/boards/:id/glows' render={(props) => (
+          {/* }<AuthenticatedRoute user={user} path='/boards/:id/glows' render={(props) => (
             <GlowCreate {...props} msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute user={user} path='/glows/:id' render={(props) => (
+          )} /> */}
+          <AuthenticatedRoute user={user} path='/boards/:id/glows/:id' render={(props) => (
             <GlowShow {...props} msgAlert={this.msgAlert} user={user} />
           )} />
         </main>

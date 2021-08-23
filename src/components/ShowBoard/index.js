@@ -15,16 +15,16 @@ import './index.scss'
 // Board detail info with delete/update feature
 const BoardShow = (props) => {
   const [board, setBoard] = useState({ title: '', topic: '' })
-  // Create glow messages
-  const [createGlowModalShow, setCreateGlowModalShow] = useState(false)
-  const [glow, setGlow] = useState({ message: '', name: '' })
-  const [createdGlowId, setCreatedGlowId] = useState(null)
   // Update board info
   const [updateModalShow, setUpdateModalShow] = useState(false)
   const [edited, setEdited] = useState(false)
   // Delete board with confirmation modal
   const [deleteModalShow, setDeleteModalShow] = useState(false)
   const [deleted, setDeleted] = useState(false)
+  // Create glow messages
+  const [createGlowModalShow, setCreateGlowModalShow] = useState(false)
+  const [glow, setGlow] = useState({ message: '', name: '' })
+  const [createdGlowId, setCreatedGlowId] = useState(null)
   // Show glow messages
   const [glowArray, setGlowArray] = useState([])
   const [radioValue, setRadioValue] = useState('0')
@@ -34,7 +34,6 @@ const BoardShow = (props) => {
   useEffect(() => {
     showBoards(user, match.params.id)
       .then(response => {
-        console.log(response)
         setBoard(response.data.board)
       })
       .then(() => {
@@ -53,6 +52,7 @@ const BoardShow = (props) => {
       })
     showBoardGlows(user, match.params.id)
       .then(response => {
+        console.log('this is the showBoardGlows response:', response)
         setGlowArray(response.data.glows)
       })
   }, [])
@@ -143,10 +143,10 @@ const BoardShow = (props) => {
     return (
       <div
         onClick={() => {
-          props.history.push(`/glows/${glow.id}`)
-          console.log(glow)
+          props.history.push(`${glow.board_id}/glows/${glow.id}`)
+          // console.log('Board id: ', glow.board_id, 'Clicked glow id: ', glow.id)
         }}
-        className="index-glow-detail"
+        className="col-4 index-glow-detail"
         key={glow.id}
       >
         <blockquote className="blockquote mb-0" id="glow-message-text">
@@ -219,7 +219,7 @@ const BoardShow = (props) => {
             </div>
           </div>
         ) : 'Loading...'}
-        <p className="create-date-info"><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p>
+        {/* <p className="create-date-info"><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p> */}
       </div>
 
       <Modal
