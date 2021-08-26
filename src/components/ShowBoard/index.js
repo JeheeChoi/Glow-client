@@ -98,8 +98,7 @@ const BoardShow = (props) => {
         })
       })
       .then(() => setCreateGlowModalShow(false))
-      .then(() => setGlow({ message: '', name: '' })
-      )
+      .then(() => setGlow({ message: '', name: '' }))
       .catch(error => {
         setGlow({ message: '', name: '' })
         msgAlert({

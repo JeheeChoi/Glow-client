@@ -54,7 +54,7 @@ const GlowShow = props => {
 
   if (deleted) {
     return (
-      <Redirect to={'/home'}/>
+      <Redirect to={`/boards/${match.params.id}`}/>
     )
   }
   return (
