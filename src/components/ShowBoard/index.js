@@ -50,11 +50,8 @@ const BoardShow = (props) => {
           variant: 'danger'
         })
       })
-    showBoardGlows(user, match.params.id)
-      .then(response => {
-        console.log('this is the showBoardGlows response:', response)
-        setGlowArray(response.data.glows)
-      })
+      // calling updated glow arrays while staying on the page
+    showUpdatedGlowArray()
   }, [])
 
   const destroyBoard = () => {
@@ -99,6 +96,7 @@ const BoardShow = (props) => {
       })
       .then(() => setCreateGlowModalShow(false))
       .then(() => setGlow({ message: '', name: '' }))
+      .then(() => showUpdatedGlowArray())
       .catch(error => {
         setGlow({ message: '', name: '' })
         msgAlert({
@@ -107,6 +105,15 @@ const BoardShow = (props) => {
           variant: 'danger'
         })
       })
+  }
+
+  const showUpdatedGlowArray = () => {
+    showBoardGlows(user, match.params.id)
+      .then(response => {
+        console.log('this is the showBoardGlows response: rendering new messages', response)
+        setGlowArray(response.data.glows)
+      })
+    console.log('showBoardGlows triggered - test')
   }
 
   const handleUpdateChange = event => {
