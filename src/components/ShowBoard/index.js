@@ -36,13 +36,6 @@ const BoardShow = (props) => {
       .then(response => {
         setBoard(response.data.board)
       })
-      .then(() => {
-        msgAlert({
-          heading: 'Show Board Success',
-          message: 'See the matched board here!',
-          variant: 'success'
-        })
-      })
       .catch(err => {
         msgAlert({
           heading: 'Show Board Failed',

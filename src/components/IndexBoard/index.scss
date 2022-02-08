@@ -31,10 +31,10 @@
   padding: 40px 20px;
   box-shadow: 0 10px 15px rgba(0,0,0,0.3);
   transition: .5s;
-}
-
-#card-index:hover {
-  transform:scale(1.1);
+  &:hover {
+    transform:scale(1.1);
+    cursor: pointer;
+  }
 }
 
 #card-index:before {

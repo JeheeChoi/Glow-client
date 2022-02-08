@@ -14,13 +14,6 @@ const BoardIndex = props => {
       .then(response => {
         setBoards(response.data.boards)
       })
-      .then(() => {
-        msgAlert({
-          heading: 'Index Boards Success',
-          message: 'See all the boards here!',
-          variant: 'success'
-        })
-      })
       .catch(error => {
         msgAlert({
           heading: 'Index Boards Failed with error: ' + error.message,
