@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 // import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
 import { showBoards, deleteBoards, updateBoards } from '../../api/boards'
-import { createGlows, showBoardGlows } from '../../api/glows'
+import { createGlows, showBoardGlows, deleteGlows } from '../../api/glows'
 
 import messages from '../AutoDismissAlert/messages'
 import { Redirect } from 'react-router-dom'
@@ -14,20 +14,25 @@ import './index.scss'
 
 // Board detail info with delete/update feature
 const BoardShow = (props) => {
+  // Get board/:id info
   const [board, setBoard] = useState({ title: '', topic: '' })
-  // Update board info
+  // Update board/:id info
   const [updateModalShow, setUpdateModalShow] = useState(false)
-  const [edited, setEdited] = useState(false)
-  // Delete board with confirmation modal
-  const [deleteModalShow, setDeleteModalShow] = useState(false)
-  const [deleted, setDeleted] = useState(false)
+  const [boardEdited, setBoardEdited] = useState(false)
+  // Delete board/:id confirmation modal
+  const [deleteBoardModalShow, setDeleteBoardModalShow] = useState(false)
+  const [boardDeleted, setBoardDeleted] = useState(false)
   // Create glow messages
   const [createGlowModalShow, setCreateGlowModalShow] = useState(false)
   const [glow, setGlow] = useState({ message: '', name: '' })
   const [createdGlowId, setCreatedGlowId] = useState(null)
-  // Show glow messages
+  // Index board/:id/glow messages
   const [glowArray, setGlowArray] = useState([])
   const [radioValue, setRadioValue] = useState('0')
+  // Get board/:id/glow/:id
+  const [glowDetail, setGlowDetail] = useState({})
+  const [viewGlowModalShow, setViewGlowModalShow] = useState(false)
+  // const [glowDeleted, setGlowDeleted] = useState(false)
 
   const { user, msgAlert, match } = props
 
@@ -47,9 +52,19 @@ const BoardShow = (props) => {
     showUpdatedGlowArray()
   }, [])
 
+  const showUpdatedGlowArray = () => {
+    showBoardGlows(user, match.params.id)
+      .then(response => {
+        console.log('this is the showBoardGlows response: rendering new messages', response)
+        setGlowArray(response.data.glows)
+        setGlowDetail(response.data.glows[0])
+      })
+    console.log('showBoardGlows triggered - test')
+  }
+
   const destroyBoard = () => {
     deleteBoards(user, match.params.id)
-      .then(() => setDeleted(true))
+      .then(() => setBoardDeleted(true))
       .then(response => {
         msgAlert({
           heading: 'Delete Board Success',
@@ -61,6 +76,28 @@ const BoardShow = (props) => {
         msgAlert({
           heading: 'Delete Board Failed with error: ' + error.message,
           message: messages.deleteBoardsFailure,
+          variant: 'danger'
+        })
+      })
+  }
+
+  const destroyGlow = () => {
+    deleteGlows(user, glowDetail.id)
+      .then(() => setViewGlowModalShow(false))
+
+      // .then(() => setGlowDeleted(true))
+      .then(() => showUpdatedGlowArray())
+      .then(response => {
+        msgAlert({
+          heading: 'Delete Glow Success',
+          message: 'See others glows on the board!',
+          variant: 'success'
+        })
+      })
+      .catch(error => {
+        msgAlert({
+          heading: 'Delete Glow Failed with error: ' + error.message,
+          message: messages.deleteGlowsFailure,
           variant: 'danger'
         })
       })
@@ -100,15 +137,6 @@ const BoardShow = (props) => {
       })
   }
 
-  const showUpdatedGlowArray = () => {
-    showBoardGlows(user, match.params.id)
-      .then(response => {
-        console.log('this is the showBoardGlows response: rendering new messages', response)
-        setGlowArray(response.data.glows)
-      })
-    console.log('showBoardGlows triggered - test')
-  }
-
   const handleUpdateChange = event => {
     event.persist()
 
@@ -129,7 +157,7 @@ const BoardShow = (props) => {
           variant: 'success'
         })
       })
-      .then(() => setEdited(true))
+      .then(() => setBoardEdited(true))
       .catch(error => {
         msgAlert({
           heading: 'Update Board Failed with error: ' + error.message,
@@ -138,12 +166,15 @@ const BoardShow = (props) => {
         })
       })
   }
+
+  // props.history.push(`${glow.board_id}/glows/${glow.id}`)
   const glows = glowArray.map(glow => {
     return (
       <div
         onClick={() => {
-          props.history.push(`${glow.board_id}/glows/${glow.id}`)
-          // console.log('Board id: ', glow.board_id, 'Clicked glow id: ', glow.id)
+          console.log(glow)
+          setGlowDetail(glow)
+          setViewGlowModalShow(true)
         }}
         className="col-4 index-glow-detail"
         key={glow.id}
@@ -166,7 +197,7 @@ const BoardShow = (props) => {
     { name: 'Add Glow Message', value: '4' }
   ]
 
-  if (deleted || edited) {
+  if (boardDeleted || boardEdited) {
     return (
       <Redirect to={'/home'}/>
     )
@@ -182,47 +213,43 @@ const BoardShow = (props) => {
   //   )
   // }
   return (
-    <div className="row">
-      <div className="col-12">
-        {board ? (
-          <div className="card border-info" id="card-show">
-            <br/>
-            {glows}
-            <h1 className="card-title">{board.title}</h1>
-            <p className="card-text">{board.topic}</p>
-            <div className="col-12" id="showboard-buttons">
-              <ButtonGroup>
-                {radios.map((radio, idx) => (
-                  <ToggleButton
-                    key={idx}
-                    id={`radio-${idx}`}
-                    type="radio"
-                    variant={'btn btn-outline-secondary'}
-                    name="radio"
-                    className="buttons"
-                    value={radio.value}
-                    checked={radioValue === radio.value}
-                    onChange={(e) => setRadioValue(e.currentTarget.value)}
-                    onClick={() => {
-                      radio.value === '1'
-                        ? props.history.push('/home')
-                        : radio.value === '2' ? setUpdateModalShow(true)
-                          : radio.value === '3' ? setDeleteModalShow(true)
-                            : setCreateGlowModalShow(true)
-                    }}
-                  >
-                    {radio.name}
-                  </ToggleButton>
-                ))}
-              </ButtonGroup>
-            </div>
+    <div className="showboard-container">
+      {board ? (
+        <div className="card border-info" id="card-show">
+          {glows}
+          <h1 className="card-title">{board.title}</h1>
+          <p className="card-text">{board.topic}</p>
+          <div className="col-12" id="showboard-buttons">
+            <ButtonGroup>
+              {radios.map((radio, idx) => (
+                <ToggleButton
+                  key={idx}
+                  id={`radio-${idx}`}
+                  type="radio"
+                  variant={'btn btn-outline-secondary'}
+                  name="radio"
+                  className="buttons"
+                  value={radio.value}
+                  checked={radioValue === radio.value}
+                  onChange={(e) => setRadioValue(e.currentTarget.value)}
+                  onClick={() => {
+                    radio.value === '1'
+                      ? props.history.push('/home')
+                      : radio.value === '2' ? setUpdateModalShow(true)
+                        : radio.value === '3' ? setDeleteBoardModalShow(true)
+                          : setCreateGlowModalShow(true)
+                  }}
+                >
+                  {radio.name}
+                </ToggleButton>
+              ))}
+            </ButtonGroup>
           </div>
-        ) : 'Loading...'}
-        {/* <p className="create-date-info"><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p> */}
-      </div>
-
+        </div>
+      ) : 'Loading...'}
+      {/* <p className="create-date-info"><small className="text-muted">Created By: {board.owner} At {board.created_at}</small></p> */}
       <Modal
-        show={deleteModalShow}
+        show={deleteBoardModalShow}
         {...props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -240,7 +267,7 @@ const BoardShow = (props) => {
           <br/>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="btn btn-secondary" onClick={() => setDeleteModalShow(false)}>Close</Button>
+          <Button variant="btn btn-secondary" onClick={() => setDeleteBoardModalShow(false)}>Close</Button>
           <Button variant="info" onClick={destroyBoard}>Delete</Button>
         </Modal.Footer>
       </Modal>
@@ -324,6 +351,30 @@ const BoardShow = (props) => {
           <Button variant="info" onClick={handleCreateSubmit}>Submit</Button>
         </Modal.Footer>
       </Modal>
+
+      {glowDetail ? (
+        <Modal
+          show={viewGlowModalShow}
+          {...props}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <h4>{glowDetail.message}</h4>
+            <p>By {glowDetail.name}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <div className="glow-buttons">
+              <Button variant="btn btn-secondary" onClick={() => setViewGlowModalShow(false)}>Close</Button>
+              {
+                user.id === glowDetail.owner &&
+                <Button variant="info" onClick={destroyGlow}>Delete</Button>
+              }
+            </div>
+          </Modal.Footer>
+        </Modal>
+      ) : 'Loading... '}
 
     </div>
 

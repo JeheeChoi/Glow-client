@@ -1,22 +1,18 @@
-/* .card-container {
-  display: flex;
-  flex-flow: row wrap;
 
-} */
-/* .col-12 {
+.showboard-container {
   display: flex;
-  flex-flow: row wrap;
-} */
-
-.row {
-  padding: 40px;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 50px;
 }
+
 #card-show {
-  position: absolute;
-  min-width: 60rem;
-  min-height: 35rem;
-  max-width: 30rem;
-  max-height: 18rem;
+  max-width: 1000px;
+  max-height: 750px;
+  min-width: 350px;
+  width: 120vh;
+  height: 70vh;
   /* min-width: 50rem;
   min-height: 40rem; */
   /* max-width: 60rem;
