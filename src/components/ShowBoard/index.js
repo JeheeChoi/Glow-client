@@ -374,7 +374,7 @@ const BoardShow = (props) => {
             </div>
           </Modal.Footer>
         </Modal>
-      ) : 'Loading... '}
+      ) : ''}
 
     </div>
 
